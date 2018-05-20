@@ -1,10 +1,11 @@
 import { FavoriteChangedEventArgs } from './favorite/favorite.component';
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  //encapsulation: ViewEncapsulation.Emulated // Emulated es por defecto, por lo que no hace falta ponerlo. Encapsulation hace que los estilos se aplican solamente a este componante
 })
 export class AppComponent {
   title = 'app';

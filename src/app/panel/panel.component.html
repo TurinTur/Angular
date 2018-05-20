@@ -1,0 +1,12 @@
+<div class="card">
+  <div class="card-header">
+    <ng-content select=".heading"></ng-content>     <!-- ng-content será sustituido por el elemento con el selector que coincida en el sitio que este componente  -->
+  </div>                                            <!--  se consuma. Si es un div class="heading", pondrá ese div en substitución de ng-content. -->
+  <div class="card-body">
+    <ng-content select=".body"></ng-content>        <!-- si solo hay un ng-content, no hace falta selector -->
+  </div>
+  <div class="card-footer">
+    <ng-content select=".footer"></ng-content>
+  </div>
+</div>
+

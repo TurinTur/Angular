@@ -1,6 +1,13 @@
 <h1>Angular</h1>
 
-<courses></courses>
+<!-- <courses></courses>
+<app-favorite [is-favorite]="post.isFavorite" (change)="onFavoriteChanged($event)"></app-favorite>     -->     <!-- is-favorite es input, change es output -->
 
-
-<app-favorite [is-favorite]="post.isFavorite" (change)="onFavoriteChanged($event)"></app-favorite>          <!-- is-favorite es input, change es output -->
+<bootstrap-panel>
+    <div class="heading">Er titulo</div>
+    <div class="body">
+        <h2>Body</h2>
+        <p>Some content here...</p>
+    </div>
+    <ng-container class="footer">Pie</ng-container>  <!-- ng-containter le pasa a ng-content lo que haya dentro (Pie) en vez de pasar el contenedor entero (como pasa con los divs de arriba)  -->
+</bootstrap-panel>
