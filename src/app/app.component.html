@@ -1,3 +1,6 @@
 <h1>Angular</h1>
 
 <courses></courses>
+
+
+<app-favorite [is-favorite]="post.isFavorite" (change)="onFavoriteChanged($event)"></app-favorite>          <!-- is-favorite es input, change es output -->
