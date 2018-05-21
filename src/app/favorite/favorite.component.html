@@ -2,12 +2,17 @@
 <style>                            
 
 </style>
-<span 
+<!--    [class.fa-star]="isFavorite"
+        [class.fa-star-o]="!isFavorite"   -->
+<span
     class="fa"
-    [class.fa-star]="isFavorite"
-    [class.fa-star-o]="!isFavorite"
-    (click)="onClick()"
-    >
-  </span>>
+    [ngClass]="{  
+      'fa-star': isFavorite,
+      'fa-star-o': !isFavorite          
+    }"
+    (click)="onClick()">
+     <!-- Arriba: ngClass, atribute directive. 2ª forma de aplicar los dos estilos, en vez de usando dos class.fa ngClass contiene un objeto con par clave/valor, 
+      cada par representa una clase css, segun el valor se renderizará o no -->
+  </span>
 
 

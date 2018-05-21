@@ -1,3 +1,72 @@
-<p>
-  directive works!
-</p>
+<bootstrap-panel>
+    <div class="heading">Er titulo</div>
+    <div class="body">
+        <h2>Body</h2>
+        <p>Some content here...</p>
+    </div>
+    <ng-container class="footer">Pie</ng-container>  <!-- ng-containter le pasa a ng-content lo que haya dentro (Pie) en vez de pasar el contenedor entero (como pasa con los divs de arriba)  -->
+</bootstrap-panel>
+
+
+<div *ngIf="courses.length > 0">     <!-- si la expresión es true, el elemento se renderizará -->
+    List of courses
+</div>
+<div *ngIf="courses.length == 0">
+     No courses yet
+</div>
+
+<div *ngIf="courses.length > 0;else noCourses ">     <!-- Se puede hacer con algo mas parecido a if/else-->
+    List of courses
+</div>
+<ng-template #noCourses> 
+        No courses yet
+</ng-template>
+<ng-template #coursesList> 
+        List of courses
+</ng-template>
+
+<div *ngIf="courses.length > 0; then coursesList else noCourses"></div>  <!-- 3ª forma de hacerlo, usando solo ng-templates-->
+<!-- El asterisco * indica que Angular reescribirá todo usando ng-template. El div de arriba sería equivalente a:
+<ng-template [ngIf]="courses.length > 0">
+    <div>
+        List of courses
+    </div>
+</ng-template>
+<ng-template [ngIf]="!(courses.length > 0)">
+      <div>
+        No courses yet
+    </div>
+</ng-template>  
+-->
+<div [hidden]="true">
+    Otra forma de ocultar un elemento, con el atributo hidden 
+</div>
+
+<ul class="nav nav-pills">
+    <li class="nav-item "><a  class="nav-link" [class.active]="viewMode == 'map'" (click)="viewMode='map'"> Map View</a></li>
+    <li class="nav-item"><a  class="nav-link" [class.active]="viewMode == 'list'" (click)="viewMode='list'">List View</a></li>
+</ul>
+<div [ngSwitch]="viewMode">                             <!-- Switch structure-->
+    <div *ngSwitchCase="'map'">Map View Content</div>
+    <div *ngSwitchCase="'list'">List view Content</div>
+    <div *ngSwitchDefault>default</div>
+</div>
+<button (click)="onAdd()">Add</button>
+<ul>
+    <li *ngFor="let course of arrayCourses; index as i; trackBy: trackCourse">      <!-- index te da aceso al indice real. first, last, even, odd tambien disponibles -->
+       {{i}} -  {{course.name}}                                                     <!-- se pasa solo una referencia de función al trackBy, sin ()-->
+       <button (click)="onRemove(course)">Remove</button>
+    </li> 
+</ul>
+<button (click)="loadCourses()">Add</button>
+
+<button 
+    [style.backgroundColor] ="canSave ? 'blue': 'gray'"
+    [style.color] = "canSave? 'white': 'black'"
+    [style.fontWeight]="canSave ? 'bold': 'normal'"
+    
+    [ngStyle]="{'backgroundColor': canSave ? 'blue': 'gray',          
+                 'color': canSave ? 'white': 'black',
+                 'fontWeight' : canSave ? 'white': 'black'
+                }"
+>Save</button>  <!-- ngStyle: Otra forma de hacer lo mismo -->
