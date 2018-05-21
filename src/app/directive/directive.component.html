@@ -70,3 +70,11 @@
                  'fontWeight' : canSave ? 'white': 'black'
                 }"
 >Save</button>  <!-- ngStyle: Otra forma de hacer lo mismo -->
+
+<span>{{ task.asignee?.name }}</span>                <!-- Safe Traversal Operator ?, si el objeto existe, funciona, si es null, lo ignora-->
+
+<BR>
+<input type="text" appInputFormat [format]="'lowercase'">
+<BR>
+<input type="text" [appInputFormat]="'uppercase'">      <!-- Otra forma de hacerlo, para ello he tenido que cambiar el @input de la directiva al selector de la directiva en si-->
+<BR>

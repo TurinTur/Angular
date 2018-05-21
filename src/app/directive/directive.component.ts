@@ -49,4 +49,11 @@ export class DirectiveComponent {
   }
 
   canSave =false;
+
+  task={
+    title: 'review applications',
+    asignee: {
+      name: null      //Safe Traversal Operator test
+    }
+  }
 }
