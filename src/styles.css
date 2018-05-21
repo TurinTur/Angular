@@ -2,3 +2,6 @@
 @import "~bootstrap/dist/css/bootstrap.css";
 
 body {padding: 20px;}
+.form-control.ng-touched.ng-invalid { /* Si es un control de un formulario que ha sido tocado y es invalido... */
+    border:red 2px solid;
+}

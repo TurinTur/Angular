@@ -1,0 +1,61 @@
+
+ <form #f="ngForm" (ngSubmit)="log(f)">                  <!-- Linea para inspeccionar el objeto ngform -->
+<!--<form>  angular aplica automaticamente la directiva ngForm a todo form, a menos que se especifique lo contario -->
+  <div ngModelGroup="contact" #contact="ngModelGroup">                <!-- ngModelGroup, para grupos en form complejos, de uso opcional. es como ngForm, pero no tiene ngSubmit, es solo para organizar en subgrupos-->
+    <div *ngIf="!contact.valid">...validation errors de este group</div>      <!-- validación por grupos -->
+    <div class="form-group">
+        <label for="firstName">First Name</label>                                       <!-- required, minlenght, maxlength, pattern... son realmente de html5 -->
+        <input 
+          required 
+          minlength="3" 
+          maxlength="12" 
+          pattern="banana" 
+          ngModel name="firstName" #firstName="ngModel" 
+          (change)="log(firstName)" id="firstName" type="text" class="form-control">   <!-- hemos creado una template var con referencia al ngModel, para asi sacarla por el metodo log ngModel name= sirva para hacer template driv forms. por detras va a crear un objeto llamado control del tipo FormControl dentro de ngModel-->
+        <div 
+          class="alert alert-danger" 
+          *ngIf="firstName.touched && !firstName.valid"> <!-- el mensaje saldrá solo si el campo ha sido 'tocado' antes -->
+          
+          <div *ngIf="firstName.errors.required">
+            First name is required
+          </div>         
+          <div *ngIf="firstName.errors.minlength">
+            First name should be minimum {{ firstName.errors.minlength.requiredLength }} characters
+          </div> <!-- cargo dinámicante la longintud minima, asi si cambia, no tengo que cambiarla en dos sitios-->
+          <div *ngIf="firstName.errors.pattern">
+            First name isn't banana
+          </div>
+        </div>
+      </div>
+  </div>
+                                                     
+
+<div class="form-group">
+  <label for="" form="comment">Comment</label>
+  <textarea ngModel name="comment" id="comment" class="form-control" cols="30" rows="10"></textarea>
+</div>
+
+<div class="checkbox">
+  <label >
+    <input ngModel name="isSubscribed" type="checkbox">Subscribe to mailing list
+  </label>
+</div>
+<div class="form-group">
+  <label for="contactMethod">Contact Method</label>
+  <select multiple ngModel name="contactMethod" id="contactMehod" class="form-control">   <!-- al seleccionar multiples valores, el value será un array de integers -->
+    <option value=""></option>
+    <option *ngFor="let method of contactMethods" [value]="method.id"> {{ method.name }}</option> <!-- value solo funciona con string, pero nosotros queremos usar un objecto -->
+    <!--<option *ngFor="let method of contactMethods" [ngValue]="method"> {{ method.name }}</option>  -->    <!-- ahora el objeto method está en el value-->
+  </select>
+</div>
+
+<div *ngFor="let method of contactMethods" class="radio">
+  <label>
+    <input ngModel type="radio" name="contactMethod" [value]="method.id">
+    {{ method.name }}
+  </label>
+</div>
+
+<p>{{f.value | json}}</p>       <!-- truco para debuggear-->
+<button class="btn btn-primary" [disabled]="!f.valid">Submit</button> <!-- Deshabilito el botón si el form no es valido -->
+</form>
