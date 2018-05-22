@@ -6,20 +6,22 @@ import { Http } from '@angular/http';
   templateUrl: './posts.component.html',
   styleUrls: ['./posts.component.css']
 })
-export class PostsComponent  {
+export class PostsComponent implements OnInit {   // tecnicamente la clase no necesita implements onInit para que ngOnInit funcione, solo es para que el compilar lo compruebe
 
   posts: any[];
   private url='https://jsonplaceholder.typicode.com/posts';
 
-  constructor(private http: Http) {       //private ya lo transforma en una propiedad privada de la clase
-
-    http.get(this.url)                   // HTTP.GET
-      .subscribe(response => {
-        this.posts = response.json();
-        //console.log(response.json());
-      });
-
+  ngOnInit(): void {        
+                            // inicialización del componente 
+    this.http.get(this.url)                   // HTTP.GET
+    .subscribe(response => {
+      this.posts = response.json();
+      //console.log(response.json());
+    });
   }
+
+  constructor(private http: Http) {       //private ya lo transforma en una propiedad privada de la clase
+    }
 
   createPost(input : HTMLInputElement){    
      let body = { title: input.value};    
