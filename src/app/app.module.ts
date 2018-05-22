@@ -13,6 +13,8 @@ import { InputFormatDirective } from './input-format.directive';
 import { ContactFormComponent } from './contact-form/contact-form.component';
 import { SignupFormComponent } from './signup-form/signup-form.component';
 import { NewCourseFormComponentComponent } from './new-course-form-component/new-course-form-component.component';
+import { PostsComponent } from './posts/posts.component';
+import { HttpModule } from '@angular/http';
 
 @NgModule({
   declarations: [
@@ -26,13 +28,14 @@ import { NewCourseFormComponentComponent } from './new-course-form-component/new
     InputFormatDirective,
     ContactFormComponent,
     SignupFormComponent,
-    NewCourseFormComponentComponent
+    NewCourseFormComponentComponent,
+    PostsComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    ReactiveFormsModule
-    
+    ReactiveFormsModule,
+    HttpModule                  // el modulo ya tiene los servicios http de DI puestos, por eso no tenemos que ponerlo nosotros abajo
   ],
   providers: [
     CoursesService              // creará un singleton del servicio, dando la misma instancia a todos los componentes del modulo que lo necesite
