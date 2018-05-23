@@ -2,7 +2,7 @@ import { PostService } from './services/post.service';
 import { SummaryPipe } from './summary.pipe';
 import { CoursesService } from './courses.services';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { CoursesComponent }      from './courses.component';
@@ -17,6 +17,7 @@ import { NewCourseFormComponentComponent } from './new-course-form-component/new
 import { PostsComponent } from './posts/posts.component';
 import { PostsWithServiceComponent } from './posts-with-service/posts.component';
 import { HttpModule } from '@angular/http';
+import { AppErrorHandler } from './common/app-error-handler';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { HttpModule } from '@angular/http';
   ],
   providers: [
     CoursesService,              // creará un singleton del servicio, dando la misma instancia a todos los componentes del modulo que lo necesite
-    PostService
+    PostService,
+    { provide: ErrorHandler, useClass: AppErrorHandler} // le decimos a Angular que en cualquier uso de ErrorHandler, use mejor nuestra propia clase, AppErrorHandler
   ],
   bootstrap: [AppComponent]
 })
