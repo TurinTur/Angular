@@ -20,8 +20,10 @@ export class DataService {
       //.pipe(catchError(this.handleError));
       .pipe(
         map(response => response.json()),  // Map es un operador para transformar los resultados de un observable. ahora en vez de pasar un response que
-        catchError(this.handleError)      // es de observable, le paso algo mas sencillo, el json.
+        catchError(this.handleError),      // es de observable, le paso algo mas sencillo, el json.
+        
       )
+      
   }
 
 

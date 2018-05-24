@@ -19,7 +19,10 @@ export class PostsOptimisticComponent implements OnInit {
   ngOnInit(): void {
       this.service.getAll()
       .subscribe(
-        posts => this.posts = posts                 // v. nueva. recibe solo el json.
+        posts => {
+          this.posts = posts;
+          console.log(this.posts);                 // v. nueva. recibe solo el json.
+          }
         );                                // He quitado la sección de error porque ahora lo manejo con AppErrorHandler
 
   }
