@@ -10,7 +10,7 @@ import { BadInputError } from '../common/bad-input';
 @Injectable({
   providedIn: 'root'
 })
-export class DatatService {
+export class DataService {
 
 
   constructor(private url: string,private http: Http) {}

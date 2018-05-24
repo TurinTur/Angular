@@ -26,6 +26,7 @@ import { GithubProfileComponent } from './github-profile/github-profile.componen
 import { NotFoundComponent } from './not-found/not-found.component';
 import { RouterModule } from '@angular/router';
 import { GithubFollowersComponent } from './github-followers/github-followers.component';
+import { HttpClientModule,HttpClient } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { GithubFollowersComponent } from './github-followers/github-followers.co
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
+    HttpClientModule,
     HttpModule,                  // el modulo ya tiene los servicios http de DI puestos, por eso no tenemos que ponerlo nosotros abajo
     RouterModule.forRoot([  // metodo estático. Util para una pagina pequeña. Para un sitio grande, es mejor dividirlo en sub-Routes usando .forChild()
       {path: '', component:HomeComponent},    //array de par key/values. path sin / = default page

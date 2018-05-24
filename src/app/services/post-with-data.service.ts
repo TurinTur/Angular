@@ -1,9 +1,9 @@
 import { Http } from '@angular/http';
 import { Injectable } from '@angular/core';
-import { DatatService } from './data.service';
+import { DataService } from './data.service';
 
 @Injectable()
-export class PostDataService extends DatatService{
+export class PostDataService extends DataService{
 
   constructor(http: Http) {
 
