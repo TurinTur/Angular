@@ -1,4 +1,4 @@
-import { PostService } from './../services/post.service';
+import { PostDataService } from './../services/post-with-data.service';
 import { Component, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
 import { AppError } from '../common/app-error';
@@ -16,30 +16,34 @@ export class PostsWithServiceComponent implements OnInit {   // tecnicamente la 
 
 
   ngOnInit(): void {
-      this.service.getPosts()
-      .subscribe(response => {
-        this.posts = response.json();
-      //console.log(response.json());
-     });                                // He quitado la sección de error porque ahora lo manejo con AppErrorHandler
+      //this.service.getPosts()
+      this.service.getAll()
+      .subscribe(
+        //response => {this.posts = response.json();console.log(response.json());}  // v. antigua. manejaba el response directamente
+        posts => this.posts = posts                 // v. nueva. recibe solo el json.
+        );                                // He quitado la sección de error porque ahora lo manejo con AppErrorHandler
      /*,error => {                                    // manejo de errores inesperados
        alert('An unexpected error ocurred.');
        console.log(error);  //deberia subirse al servidor
      });*/
   }
 
-  constructor(private service: PostService) {       //private ya lo transforma en una propiedad privada de la clase
+  //constructor(private service: PostService)
+  constructor(private service: PostDataService) {       //private ya lo transforma en una propiedad privada de la clase
     }
 
   createPost(input : HTMLInputElement){
      let body = { title: input.value};
      input.value = '';
-     this.service.CreatePost(body)      // HTTP.POST (CREACION)
-      .subscribe ( response => {
+     //this.service.CreatePost(body)
+     this.service.create(body)      // HTTP.POST (CREACION)
+      .subscribe ( newPost => {
         //body.id = response.json().id;     // este sitio web no hace lo normal (devolverte el objeto entero), solo la id. Pero nuestro body no tiene id en nuestra declaración,
-        body['id'] = response.json().id;    // se puede arreglar poniendo arriba let body: any ó... llamando id asi. id así se agrega como nuevo key/value
+        //body['id'] = response.json().id;    // se puede arreglar poniendo arriba let body: any ó... llamando id asi. id así se agrega como nuevo key/value
+        body['id'] = newPost.id;
         this.posts.splice(0,0,body);
-        console.log(response.json()) ;
-        console.log(body);
+        console.log(newPost) ;
+        //console.log(body);
        }, (error: AppError) => {
          if (error instanceof BadInputError){
            //this.form.setErrrors(error.originalError());    //Esto es lo que haríamos si tuviesemos un form
@@ -54,9 +58,11 @@ export class PostsWithServiceComponent implements OnInit {   // tecnicamente la 
 
   updatePost (post ){
      let element= { isRead: true};
-     this.service.UpdatePost(post,element)
-      .subscribe ( response => {
-          console.log(response.json());
+    //this.service.UpdatePost(post,element)
+     this.service.update(post)
+      .subscribe ( updatedPost => {
+          //console.log(response.json());     // antes recebía el un response (observable)
+          console.log(updatedPost);           // ahora recibo el objeto json directamente
        });
        /*, error => {
         alert('An unexpected error ocurred.');
@@ -85,11 +91,11 @@ export class PostsWithServiceComponent implements OnInit {   // tecnicamente la 
   }*/
 
   deletePost (post) {                               // Manejamos los errores ahora en el servicio post
-    this.service.deletePost(post.id)                    // HTTP.DELETE
-    .subscribe ( response => {
+    //this.service.deletePost(post.id)
+    this.service.delete(post.id)                    // HTTP.DELETE   borrar post.id y poner un numero > 100 para que falle
+    .subscribe ( () => {                            // (), porque no me hace falta ningún objeto de vuelta
         let index = this.posts.indexOf(post);
         this.posts.splice(index,1);
-        console.log(response.json());
      }, (error:AppError) => {        // lo casteamos a Response para tener acceso a status
        if (error instanceof NotFoundError ){
          alert('This post has been deleted already.')

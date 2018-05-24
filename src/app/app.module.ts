@@ -1,4 +1,4 @@
-import { PostService } from './services/post.service';
+//import { PostService } from './services/post.service';
 import { SummaryPipe } from './summary.pipe';
 import { CoursesService } from './courses.services';
 import { BrowserModule } from '@angular/platform-browser';
@@ -18,6 +18,8 @@ import { PostsComponent } from './posts/posts.component';
 import { PostsWithServiceComponent } from './posts-with-service/posts.component';
 import { HttpModule } from '@angular/http';
 import { AppErrorHandler } from './common/app-error-handler';
+import { PostDataService } from './services/post-with-data.service';
+import { PostsOptimisticComponent } from './posts-optimistic/posts-optimistic.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,8 @@ import { AppErrorHandler } from './common/app-error-handler';
     SignupFormComponent,
     NewCourseFormComponentComponent,
     PostsComponent,
-    PostsWithServiceComponent
+    PostsWithServiceComponent,
+    PostsOptimisticComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +46,7 @@ import { AppErrorHandler } from './common/app-error-handler';
   ],
   providers: [
     CoursesService,              // creará un singleton del servicio, dando la misma instancia a todos los componentes del modulo que lo necesite
-    PostService,
+    PostDataService,              // antes era PostService
     { provide: ErrorHandler, useClass: AppErrorHandler} // le decimos a Angular que en cualquier uso de ErrorHandler, use mejor nuestra propia clase, AppErrorHandler
   ],
   bootstrap: [AppComponent]
