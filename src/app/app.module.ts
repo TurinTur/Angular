@@ -16,7 +16,7 @@ import { SignupFormComponent } from './signup-form/signup-form.component';
 import { NewCourseFormComponentComponent } from './new-course-form-component/new-course-form-component.component';
 import { PostsComponent } from './posts/posts.component';
 import { PostsWithServiceComponent } from './posts-with-service/posts.component';
-import { HttpModule } from '@angular/http';
+import { HttpModule, BaseRequestOptions } from '@angular/http';
 import { AppErrorHandler } from './common/app-error-handler';
 import { PostDataService } from './services/post-with-data.service';
 import { PostsOptimisticComponent } from './posts-optimistic/posts-optimistic.component';
@@ -28,6 +28,10 @@ import { RouterModule } from '@angular/router';
 import { GithubFollowersComponent } from './github-followers/github-followers.component';
 import { HttpClientModule,HttpClient } from '@angular/common/http';
 import { GithubFollowersService } from './services/github-followers.service';
+import { LoginComponent } from './login/login.component';
+import { AuthService } from './services/auth.service';
+import { fakeBackendProvider } from './helpers/fake-backend';
+import { MockBackend } from '@angular/http/testing';
 
 @NgModule({
   declarations: [
@@ -49,7 +53,8 @@ import { GithubFollowersService } from './services/github-followers.service';
     HomeComponent,
     GithubProfileComponent,
     NotFoundComponent,
-    GithubFollowersComponent
+    GithubFollowersComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -59,16 +64,25 @@ import { GithubFollowersService } from './services/github-followers.service';
     HttpModule,                  // el modulo ya tiene los servicios http de DI puestos, por eso no tenemos que ponerlo nosotros abajo
     RouterModule.forRoot([  // metodo estático. Util para una pagina pequeña. Para un sitio grande, es mejor dividirlo en sub-Routes usando .forChild()
       {path: '', component:HomeComponent},    //array de par key/values. path sin / = default page
-      {path: 'followers/:id/:username', component:GithubProfileComponent},  // con parametro username
-      {path: 'followers', component:GithubFollowersComponent},          // tiene que ir debajo de followers/:username, porque si no, cualquier entrada que empieze por followers ira al primero que coincida
-      {path: 'posts', component:PostsOptimisticComponent},
-      {path: '**', component:NotFoundComponent}              // cualquier otra pagina, importa el orden, por eso va al final
+
+      //{path: 'admin', component: AdminComponent},
+      //{path: 'login', component: LoginComponent},
+      //{path: 'no-access', component: NoAccessComponent}
+
+      //{path: 'followers/:id/:username', component:GithubProfileComponent},  // con parametro username
+      //{path: 'followers', component:GithubFollowersComponent},          // tiene que ir debajo de followers/:username, porque si no, cualquier entrada que empieze por followers ira al primero que coincida
+      //{path: 'posts', component:PostsOptimisticComponent},
+      //{path: '**', component:NotFoundComponent}              // cualquier otra pagina, importa el orden, por eso va al final
     ])
   ],
   providers: [
     CoursesService,              // creará un singleton del servicio, dando la misma instancia a todos los componentes del modulo que lo necesite
     PostDataService,              // antes era PostService
     GithubFollowersService,
+    //OrderService,
+    AuthService,
+    fakeBackendProvider,
+    MockBackend, BaseRequestOptions,
     { provide: ErrorHandler, useClass: AppErrorHandler} // le decimos a Angular que en cualquier uso de ErrorHandler, use mejor nuestra propia clase, AppErrorHandler
   ],
   bootstrap: [AppComponent]

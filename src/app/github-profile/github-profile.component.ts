@@ -8,15 +8,15 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 })
 export class GithubProfileComponent implements OnInit {
 
-  constructor( private route: ActivatedRoute)
-    //private router: Router)
+  constructor( private route: ActivatedRoute,
+    private router: Router)
     {  }
 
- /* submit() {
-    this.router.navigate(['/followers'], {
+  submit() {
+    this.router.navigate(['/followers'], {      //para enlazar con un botón y que vaya a una página.
       queryParams: {page: 1, order: 'newest'}
     })
-  }*/
+  }
 
   ngOnInit(): void {          // Si se redirige de la pagina actual a la misma pagina con un enlance nuevo, ngonInnit no se ejecuta, porque el componente no se crea de nuevo.
     console.log("on innit");  // Sin embargo si ha cambiado la ruta, nuestro observador se dará cuenta y actuará.
@@ -28,7 +28,7 @@ export class GithubProfileComponent implements OnInit {
           //params.keys  // obtiene todas las keys
           //params.get(name)  // obtiene un valor de un parametro con su nombre
           //params.getAll() // obtiene todos los parametros
-          //bool=params.has(name)  // obtiene 
+          //bool=params.has(name)  // obtiene
        });
 
        let id= this.route.snapshot.paramMap.get('id');  // si estamos seguro que no se va a llegar al componente actual desde la misma pagina, podemos prescindir del observable
