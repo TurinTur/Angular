@@ -1,4 +1,4 @@
-//import { AuthService } from './../services/auth.service';
+import { AuthService } from './../services/auth.service';
 import { Component } from '@angular/core';
 
 @Component({
@@ -8,5 +8,5 @@ import { Component } from '@angular/core';
 })
 export class HomeComponent {
 
-  //constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService) { }
 }

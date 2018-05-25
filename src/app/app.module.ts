@@ -32,7 +32,11 @@ import { LoginComponent } from './login/login.component';
 import { AuthService } from './services/auth.service';
 import { fakeBackendProvider } from './helpers/fake-backend';
 import { MockBackend } from '@angular/http/testing';
+import { JwtHelperService,JwtModule } from '@auth0/angular-jwt';
 
+export function tokenGetter() {
+  return localStorage.getItem('token');
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -62,11 +66,18 @@ import { MockBackend } from '@angular/http/testing';
     ReactiveFormsModule,
     HttpClientModule,
     HttpModule,                  // el modulo ya tiene los servicios http de DI puestos, por eso no tenemos que ponerlo nosotros abajo
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        whitelistedDomains: ['localhost:3001'],
+        blacklistedRoutes: ['localhost:3001/auth/']
+      }
+    }),
     RouterModule.forRoot([  // metodo estático. Util para una pagina pequeña. Para un sitio grande, es mejor dividirlo en sub-Routes usando .forChild()
       {path: '', component:HomeComponent},    //array de par key/values. path sin / = default page
 
       //{path: 'admin', component: AdminComponent},
-      //{path: 'login', component: LoginComponent},
+      {path: 'login', component: LoginComponent},
       //{path: 'no-access', component: NoAccessComponent}
 
       //{path: 'followers/:id/:username', component:GithubProfileComponent},  // con parametro username
@@ -83,6 +94,7 @@ import { MockBackend } from '@angular/http/testing';
     AuthService,
     fakeBackendProvider,
     MockBackend, BaseRequestOptions,
+    JwtHelperService,
     { provide: ErrorHandler, useClass: AppErrorHandler} // le decimos a Angular que en cualquier uso de ErrorHandler, use mejor nuestra propia clase, AppErrorHandler
   ],
   bootstrap: [AppComponent]

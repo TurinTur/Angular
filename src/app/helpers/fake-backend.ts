@@ -5,8 +5,9 @@ export function fakeBackendFactory(
     backend: MockBackend,
     options: BaseRequestOptions) {
 
-  let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Ik1vc2ggSGFtZWRhbmkiLCJhZG1pbiI6dHJ1ZX0.iy8az1ZDe-_hS8GLDKsQKgPHvWpHl0zkQBqy1QIPOkA';
-/*
+  //let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Ik1vc2ggSGFtZWRhbmkiLCJhZG1pbiI6dHJ1ZX0.iy8az1ZDe-_hS8GLDKsQKgPHvWpHl0zkQBqy1QIPOkA';
+  let token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Ik1vc2ggSGFtZWRhbmkiLCJhZG1pbiI6dHJ1ZSwiZXhwIjoxNTI3Mjg2NDUyLCJqdGkiOiJjYTU3YzEyNy01MjZkLTQ1MzctODA1Ni1lNTYzNmU2NjhjYWQiLCJpYXQiOjE1MjcyODI4NTJ9.m45hPRKSIOHofV9OPWJHQh9XdI4ULx9NF3N6R_Fovww';
+/* equivalente a:
 {
   "alg": "HS256",
   "typ": "JWT"
@@ -23,18 +24,18 @@ HMACSHA256(
 your-256-bit-secret
 )
 */
-  backend.connections.subscribe((connection: MockConnection) => {
+  backend.connections.subscribe((connection: MockConnection) => {     //se subscribe a toda conexión que pase por el backend.
     // We are using the setTimeout() function to simulate an
     // asynchronous call to the server that takes 1 second.
-    setTimeout(() => {
-      //
+    setTimeout(() => {                                                //y hace que todo se ejecute y se devuelva 1 segundo mas tarde de forma asincrona
+      //    
       // Fake implementation of /api/authenticate
       //
-      if (connection.request.url.endsWith('/api/authenticate') &&
+      if (connection.request.url.endsWith('/api/authenticate') &&     //si recibimos un http.post de la url adecuada...
         connection.request.method === RequestMethod.Post) {
         let body = JSON.parse(connection.request.getBody());
 
-        if (body.email === 'mosh@domain.com' && body.password === '1234') {
+        if (body.email === 'mosh@domain.com' && body.password === '1234') { //con el nombry y password adecuado, devolvemos el token de arriba.
           connection.mockRespond(new Response(
             new ResponseOptions({
               status: 200,
@@ -74,7 +75,7 @@ your-256-bit-secret
 }
 
 export let fakeBackendProvider = {
-    provide: Http,
-    useFactory: fakeBackendFactory,
+    provide: Http,                        //intercepta toda llamada al servicio http y le da en cambio fakeBackendFactory. Esta usa los dos mismos objetos que se necesitan para
+    useFactory: fakeBackendFactory,       //crear un objeto http nuevo normal y corriente, pero haciendo operaciones dentro del backend
     deps: [MockBackend, BaseRequestOptions]
 };
