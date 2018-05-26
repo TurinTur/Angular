@@ -1,4 +1,4 @@
-import { Directive, HostListener, ElementRef, Input } from '@angular/core';  // vamso a manejar dos eventos de dos, Host y Blur
+import { Directive, HostListener, ElementRef, Input } from '@angular/core';  // vamos a manejar dos eventos de dos, Host y Blur
 
 @Directive({
   selector: '[appInputFormat]'    // directivas usan []. cualquier elemento que tenga este selector será aplicado la directiva

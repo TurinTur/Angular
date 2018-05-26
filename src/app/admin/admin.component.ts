@@ -1,4 +1,4 @@
-import { OrderService, tipo } from './../services/order.service';
+import { OrderService } from './../services/order.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({

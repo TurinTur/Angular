@@ -31,12 +31,12 @@ import { CoursesService } from './courses.services';
             {{ course.title | uppercase | lowercase }}  <br/>        <!-- PIPES se pueden encadenar -->
             {{ course.students  }}          <br/>                    <!-- number: le pone una coma -->
             {{ course.rating | number:'1.2-2' }}     <br/>           <!-- pipes con argumento, minimo y maximo de 2 decimales -->
-            {{ course.price | currency:'EUR':symbol:'3.2-2'}} <br/>  <!--  por defecto es $ -->
+
             {{ course.releaseDate | date:'shortDate' }} <br/>
             {{ text  | summary:11 }}
-            ` 
-
-})
+            `            
+          // {{ course.price | currency:'EUR':symbol:'3.2-2'}} <br/>   por defecto es $ -->
+})  
 export class CoursesComponent {
     title ="List of courses";
     imgUrl = "https://www.google.es/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png";

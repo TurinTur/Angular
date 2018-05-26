@@ -8,12 +8,12 @@ import { Injectable } from '@angular/core';
 })
 export class AdminAuthGuard implements CanActivate {
 
-  constructor(private router: Router, private AuthService:AuthService) { }
+  constructor(private router: Router, private AutheService: AuthService) { }
 
-  canActivate(){
+  canActivate() {
 
-      let user= this.AuthService.currentUser;
-      if (user && user.admin ) return true;   //user &&... porque queremos comprobar que currentUser exista y no sea null, anets de comprobar user.admin
+      const user = this.AutheService.currentUser;
+      if (user && user.admin ) { return true; }   // user &&... porque queremos comprobar que currentUser exista y no sea null, anets de comprobar user.admin
 
       this.router.navigate(['/no-access']);
       return false;

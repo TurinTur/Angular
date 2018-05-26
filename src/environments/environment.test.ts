@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  navBarBaackgroundColor: 'blue'
+  navBarBaackgroundColor: 'yellow'
 };
 
 /*

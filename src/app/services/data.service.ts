@@ -7,9 +7,12 @@ import { AppError } from '../common/app-error';
 import { NotFoundError } from '../common/not-found-error';
 import { BadInputError } from '../common/bad-input';
 
-@Injectable({
-  providedIn: 'root'
-})
+/*@Injectable({         // Usar un injectable aqui estaba produciendo un error raro en el compilador AOT (ng build --prod),
+  providedIn: 'root'    //  porque Angular jamas instancia directamente esta clase base, solo se usa como patrón para las clases hijas. 
+})*/
+/*
+Remove the @Injectable decorator from the base class. You should only include that decorator (or any decorator for that matter) on classes that Angular should instantiate directly (and while doing that also resolve their constructor parameters using the injector).
+Since it is obvious that in your case the base class is not to be instantiated by angular directly (it has constructor parameters which are not known by the injector), you should remove the decorators from it.*/ 
 export class DataService {
 
 

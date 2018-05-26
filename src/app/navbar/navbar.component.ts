@@ -1,3 +1,4 @@
+import { environment } from './../../environments/environment';   //cuando hagamos build --prod esto cambiará automaticamente a /enviroment.prod
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
+
+  backgroundColor = environment.navBarBaackgroundColor;
 
   constructor() { }
 
