@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Http, BaseRequestOptions, Response, ResponseOptions, RequestMethod } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 
@@ -6,7 +7,8 @@ export function fakeBackendFactory(
     options: BaseRequestOptions) {
 
   //let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Ik1vc2ggSGFtZWRhbmkiLCJhZG1pbiI6dHJ1ZX0.iy8az1ZDe-_hS8GLDKsQKgPHvWpHl0zkQBqy1QIPOkA';
-  let token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Ik1vc2ggSGFtZWRhbmkiLCJhZG1pbiI6dHJ1ZSwiZXhwIjoxNTI3Mjg2NDUyLCJqdGkiOiJjYTU3YzEyNy01MjZkLTQ1MzctODA1Ni1lNTYzNmU2NjhjYWQiLCJpYXQiOjE1MjcyODI4NTJ9.m45hPRKSIOHofV9OPWJHQh9XdI4ULx9NF3N6R_Fovww';
+  //let token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Ik1vc2ggSGFtZWRhbmkiLCJhZG1pbiI6dHJ1ZSwiZXhwIjoxNTI3Mjg2NDUyLCJqdGkiOiJjYTU3YzEyNy01MjZkLTQ1MzctODA1Ni1lNTYzNmU2NjhjYWQiLCJpYXQiOjE1MjcyODI4NTJ9.m45hPRKSIOHofV9OPWJHQh9XdI4ULx9NF3N6R_Fovww';
+  let token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Ik1vc2ggSGFtZWRhbmkiLCJhZG1pbiI6dHJ1ZSwiZXhwIjoxNTI3NjI4NjQ1MiwianRpIjoiY2E1N2MxMjctNTI2ZC00NTM3LTgwNTYtZTU2MzZlNjY4Y2FkIiwiaWF0IjoxNTI3MjY4Mjg1Mn0.zPkI83OCs1Itvr3ju2gd20h3XUBWCNRoPmgk065FyJE';
 /* equivalente a:
 {
   "alg": "HS256",
@@ -55,7 +57,7 @@ your-256-bit-secret
        //
        if (connection.request.url.endsWith('/api/orders') &&
            connection.request.method === RequestMethod.Get) {
-         if (connection.request.headers.get('Authorization') === 'Bearer ' + token) {
+         if (connection.request.headers.get('Authorization') === 'Bearer ' + token) {   //api/orders necesita un token en el header. lo adjunto en order.service
             connection.mockRespond(new Response(
               new ResponseOptions({ status: 200, body: [1, 2, 3] })
          ));
@@ -75,7 +77,7 @@ your-256-bit-secret
 }
 
 export let fakeBackendProvider = {
-    provide: Http,                        //intercepta toda llamada al servicio http y le da en cambio fakeBackendFactory. Esta usa los dos mismos objetos que se necesitan para
+    provide:  Http,                  //intercepta toda llamada al servicio http y le da en cambio fakeBackendFactory. Esta usa los dos mismos objetos que se necesitan para
     useFactory: fakeBackendFactory,       //crear un objeto http nuevo normal y corriente, pero haciendo operaciones dentro del backend
     deps: [MockBackend, BaseRequestOptions]
 };

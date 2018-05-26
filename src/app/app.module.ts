@@ -1,3 +1,5 @@
+import { AdminAuthGuard } from './services/admin-auth-guard.service';
+import { AuthGuard } from './services/auth-guard.service';
 //import { PostService } from './services/post.service';
 import { SummaryPipe } from './summary.pipe';
 import { CoursesService } from './courses.services';
@@ -33,6 +35,9 @@ import { AuthService } from './services/auth.service';
 import { fakeBackendProvider } from './helpers/fake-backend';
 import { MockBackend } from '@angular/http/testing';
 import { JwtHelperService,JwtModule } from '@auth0/angular-jwt';
+import { AdminComponent } from './admin/admin.component';
+import { NoAccessComponent } from './no-access/no-access.component';
+import { OrderService } from './services/order.service';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -58,7 +63,9 @@ export function tokenGetter() {
     GithubProfileComponent,
     NotFoundComponent,
     GithubFollowersComponent,
-    LoginComponent
+    LoginComponent,
+    AdminComponent,
+    NoAccessComponent
   ],
   imports: [
     BrowserModule,
@@ -69,30 +76,30 @@ export function tokenGetter() {
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        whitelistedDomains: ['localhost:3001'],
+        whitelistedDomains: ['http://localhost:4200'],
         blacklistedRoutes: ['localhost:3001/auth/']
       }
     }),
     RouterModule.forRoot([  // metodo estático. Util para una pagina pequeña. Para un sitio grande, es mejor dividirlo en sub-Routes usando .forChild()
       {path: '', component:HomeComponent},    //array de par key/values. path sin / = default page
-
-      //{path: 'admin', component: AdminComponent},
+     // AuthGuard y adminAuthGuard son clases que implementa el interfaz canActivate. canActivate puede tener varias, por eso es un array. El orden importa.
+      {path: 'admin', component: AdminComponent, canActivate:[AuthGuard, AdminAuthGuard]},  
       {path: 'login', component: LoginComponent},
-      //{path: 'no-access', component: NoAccessComponent}
+      {path: 'no-access', component: NoAccessComponent},
 
-      //{path: 'followers/:id/:username', component:GithubProfileComponent},  // con parametro username
-      //{path: 'followers', component:GithubFollowersComponent},          // tiene que ir debajo de followers/:username, porque si no, cualquier entrada que empieze por followers ira al primero que coincida
-      //{path: 'posts', component:PostsOptimisticComponent},
-      //{path: '**', component:NotFoundComponent}              // cualquier otra pagina, importa el orden, por eso va al final
+      {path: 'followers/:id/:username', component:GithubProfileComponent},  // con parametro username
+      {path: 'followers', component:GithubFollowersComponent},          // tiene que ir debajo de followers/:username, porque si no, cualquier entrada que empieze por followers ira al primero que coincida
+      {path: 'posts', component:PostsOptimisticComponent},
+      {path: '**', component:NotFoundComponent}              // cualquier otra pagina, importa el orden, por eso va al final
     ])
   ],
   providers: [
     CoursesService,              // creará un singleton del servicio, dando la misma instancia a todos los componentes del modulo que lo necesite
     PostDataService,              // antes era PostService
     GithubFollowersService,
-    //OrderService,
-    AuthService,
-    fakeBackendProvider,
+    OrderService,
+    AuthService, AdminAuthGuard,
+    //fakeBackendProvider,
     MockBackend, BaseRequestOptions,
     JwtHelperService,
     { provide: ErrorHandler, useClass: AppErrorHandler} // le decimos a Angular que en cualquier uso de ErrorHandler, use mejor nuestra propia clase, AppErrorHandler

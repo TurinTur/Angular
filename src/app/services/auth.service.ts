@@ -38,18 +38,18 @@ export class AuthService {
   isLoggedIn() {
     //let jwtHelper = new JwtHelperService();   
     let token =localStorage.getItem('token');
-    /*
+    
     if (!token){
       console.log("sin token");
       return false;
     }
       
-    //console.log(this.jwtHelper.decodeToken(token));
-    //console.log(!this.jwtHelper.isTokenExpired(token));
+    console.log(this.jwtHelper.decodeToken(token));
+    console.log(!this.jwtHelper.isTokenExpired(token));
     return !this.jwtHelper.isTokenExpired(token);       // Si el token no tiene expiration date, da false. Debería ser !jwtHelper.istokenExpired, depende de si el token está expirado o no
-    */
+    
 
-    return token != null && !this.jwtHelper.isTokenExpired(token);   //forma abreviada
+    //return token != null && !this.jwtHelper.isTokenExpired(token);   //forma abreviada
   }
 
 
